@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Roblox VR</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&family=IBM+Plex+Sans:wght@500&display=swap">
+<style>
+  :root {
+    color-scheme: dark;
+    --ground: #111216;
+    --text: #f2f4f5;
+    --muted: #a3a8b1;
+    --blue: #335fff;
+    --blue-hover: #4a72ff;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--text);
+    font-family: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+    display: flex;
+    flex-direction: column;
+    padding-inline: 20px;
+  }
+  main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    text-align: center;
+    padding-block: 48px;
+  }
+  h1 {
+    margin: 0;
+    font: 900 clamp(48px, 11vw, 112px)/0.95 "Montserrat", "Arial Black", system-ui, sans-serif;
+    letter-spacing: -0.03em;
+  }
+  h1 small {
+    display: block;
+    margin-top: 14px;
+    font: 800 clamp(18px, 3vw, 26px)/1.2 "Montserrat", "Arial Black", system-ui, sans-serif;
+    letter-spacing: 0;
+    color: var(--muted);
+  }
+  .download {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--blue);
+    color: #fff;
+    text-decoration: none;
+    font: 800 20px/1 "Montserrat", "Arial Black", system-ui, sans-serif;
+    padding: 20px 34px 20px 26px;
+    border-radius: 8px;
+    transition: background 0.15s ease, transform 0.15s ease;
+  }
+  .download:hover { background: var(--blue-hover); }
+  .download:active { transform: translateY(1px); }
+  .download:focus-visible { outline: 3px solid #8aa3ff; outline-offset: 4px; }
+  .meta { margin: 0; color: var(--muted); font-size: 14px; }
+  footer { padding-block: 20px; text-align: center; color: #6b7079; font-size: 12px; }
+  @media (prefers-reduced-motion: reduce) { .download { transition: none; } }
+</style>
+</head>
+<body>
+<main>
+  <h1>Roblox VR<small>По праздникам 1 фпс</small></h1>
+  <a class="download" href="https://t.me/PhoneXRApk/2" target="_blank" rel="noopener">
+    <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><path d="M6 3.5v15a1 1 0 0 0 1.5.86l12.4-7.5a1 1 0 0 0 0-1.72L7.5 2.64A1 1 0 0 0 6 3.5z" fill="#fff"/></svg>
+    Скачать
+  </a>
+  <p class="meta">APK · 165 МБ · Android 8+</p>
+</main>
+<footer>Неофициальный проект, не связан с Roblox Corporation.</footer>
+</body>
+</html>
