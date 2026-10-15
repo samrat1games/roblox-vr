@@ -88,22 +88,10 @@
   .download:hover { background: var(--blue-hover); }
   .download:active { transform: translateY(1px); }
   .download:focus-visible { outline: 3px solid #8aa3ff; outline-offset: 4px; }
-  .download.off { background: #2a2d34; color: #7b808a; box-shadow: inset 0 0 0 1px #3a3f4b; }
-  .download.off:hover { background: #2a2d34; }
-  .download.off svg path { stroke: #7b808a; }
+  .download.alt { background: #22252d; box-shadow: inset 0 0 0 1px #3a3f4b; }
+  .download.alt:hover { background: #2c3039; }
   .meta { margin: 0; color: var(--muted); font-size: 14px; }
   footer { padding-block: 20px; text-align: center; color: #6b7079; font-size: 12px; }
-  dialog {
-    background: #1b1d23; color: var(--text); border: 1px solid #3a3f4b; border-radius: 12px;
-    padding: 24px 26px; max-width: min(92vw, 380px); text-align: center;
-  }
-  dialog::backdrop { background: rgba(0, 0, 0, 0.6); }
-  dialog p { margin: 0 0 18px; line-height: 1.5; }
-  dialog button {
-    background: var(--blue); color: #fff; border: 0; border-radius: 8px; cursor: pointer;
-    font: 800 16px/1 "Montserrat", system-ui, sans-serif; padding: 14px 28px;
-  }
-  dialog button:focus-visible { outline: 3px solid #8aa3ff; outline-offset: 3px; }
   @media (prefers-reduced-motion: reduce) { .download { transition: none; } }
 </style>
 </head>
@@ -122,19 +110,15 @@
       <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M21.5 4.2 2.9 11.4c-.9.4-.9 1.6.1 1.9l4.6 1.4 1.8 5.6c.3.9 1.4 1.1 2 .4l2.6-2.6 4.8 3.5c.8.6 1.9.1 2.1-.8l3-14.9c.2-1.1-.8-1.9-1.8-1.5Z" fill="#fff"/></svg>
       Telegram
     </a>
-    <button type="button" class="download off" id="mf" aria-disabled="true">
+    <a class="download alt" href="https://www.mediafire.com/file/7o8xp7glkwod4ai/ROBLOXVR-JOAOLIMZ-BYSAMRAT.apk/file" target="_blank" rel="noopener">
       <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v11m0 0-4.5-4.5M12 14l4.5-4.5M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       MediaFire
-    </button>
+    </a>
   </div>
   <p class="meta" data-i="meta"></p>
 </main>
 <footer data-i="foot"></footer>
 
-<dialog id="dlg">
-  <p data-i="mf"></p>
-  <button type="button" id="ok">OK</button>
-</dialog>
 
 <script>
   const T = {
@@ -142,22 +126,19 @@
       sub: "По праздникам 1 фпс",
       warn: "<b>Альфа-версия.</b> В ней есть баги: возможны вылеты, просадки FPS и неточное управление. Мы работаем над исправлениями.",
       meta: "Alpha 26.3.0 · Roblox 2.741 (3218) · 146 МБ · Android 8+",
-      foot: "Неофициальный проект, не связан с Roblox Corporation.",
-      mf: "MediaFire временно не работает. Скачайте из Telegram."
+      foot: "Неофициальный проект, не связан с Roblox Corporation."
     },
     en: {
       sub: "1 FPS on holidays",
       warn: "<b>Alpha release.</b> It has bugs: crashes, FPS drops and imprecise controls are possible. We are working on fixes.",
       meta: "Alpha 26.3.0 · Roblox 2.741 (3218) · 146 MB · Android 8+",
-      foot: "Unofficial project, not affiliated with Roblox Corporation.",
-      mf: "MediaFire is temporarily not working. Please download from Telegram."
+      foot: "Unofficial project, not affiliated with Roblox Corporation."
     },
     pt: {
       sub: "1 FPS nos feriados",
       warn: "<b>Versão alfa.</b> Ela tem bugs: travamentos, quedas de FPS e controles imprecisos são possíveis. Estamos trabalhando nas correções.",
       meta: "Alpha 26.3.0 · Roblox 2.741 (3218) · 146 MB · Android 8+",
-      foot: "Projeto não oficial, sem relação com a Roblox Corporation.",
-      mf: "O MediaFire está temporariamente fora do ar. Baixe pelo Telegram."
+      foot: "Projeto não oficial, sem relação com a Roblox Corporation."
     }
   };
   function pick() {
@@ -172,9 +153,6 @@
     try { localStorage.setItem("lang", l); } catch (e) {}
   }
   document.querySelectorAll(".langs button").forEach(b => b.addEventListener("click", () => setLang(b.dataset.lang)));
-  const dlg = document.getElementById("dlg");
-  document.getElementById("mf").addEventListener("click", () => dlg.showModal());
-  document.getElementById("ok").addEventListener("click", () => dlg.close());
   setLang(pick());
 </script>
 </body>
