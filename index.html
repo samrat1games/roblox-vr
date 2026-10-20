@@ -88,9 +88,8 @@
   .download:hover { background: var(--blue-hover); }
   .download:active { transform: translateY(1px); }
   .download:focus-visible { outline: 3px solid #8aa3ff; outline-offset: 4px; }
-  .download.off { background: #2a2d34; color: #7b808a; box-shadow: inset 0 0 0 1px #3a3f4b; }
-  .download.off:hover { background: #2a2d34; }
-  .download.off svg path { stroke: #7b808a; }
+  .download.alt { background: #22252d; box-shadow: inset 0 0 0 1px #3a3f4b; }
+  .download.alt:hover { background: #2c3039; }
   .download.locked { background: #2a2d34; color: #9aa0ab; box-shadow: inset 0 0 0 1px #3a3f4b; cursor: not-allowed; }
   .download.locked:hover { background: #2a2d34; }
   .gate { margin: 0; max-width: 520px; color: var(--muted); font-size: 14px; line-height: 1.5; }
@@ -121,10 +120,6 @@
   }
   dialog::backdrop { background: rgba(0, 0, 0, 0.6); }
   dialog p { margin: 0 0 18px; line-height: 1.5; }
-  dialog button.ok {
-    background: var(--blue); color: #fff; border: 0; border-radius: 8px; cursor: pointer;
-    font: 800 16px/1 "Montserrat", system-ui, sans-serif; padding: 14px 28px;
-  }
   dialog button:focus-visible { outline: 3px solid #8aa3ff; outline-offset: 3px; }
   #ad { max-width: min(92vw, 460px); width: 100%; text-align: left; }
   #ad .top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
@@ -160,10 +155,10 @@
       <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M21.5 4.2 2.9 11.4c-.9.4-.9 1.6.1 1.9l4.6 1.4 1.8 5.6c.3.9 1.4 1.1 2 .4l2.6-2.6 4.8 3.5c.8.6 1.9.1 2.1-.8l3-14.9c.2-1.1-.8-1.9-1.8-1.5Z" fill="#fff"/></svg>
       Telegram
     </button>
-    <button type="button" class="download off" id="mf" aria-disabled="true">
+    <a class="download alt" href="https://www.mediafire.com/file/ihel79wcohcl8am/RobloxVR-Alpha-26.3.1-build3222.apk/file" target="_blank" rel="noopener">
       <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v11m0 0-4.5-4.5M12 14l4.5-4.5M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       MediaFire
-    </button>
+    </a>
   </div>
   <p class="meta" data-i="meta"></p>
   <div class="ads" id="ads"></div>
@@ -178,10 +173,6 @@
   <a class="go locked" id="go" href="https://t.me/PhoneXRApk/9" target="_blank" rel="noopener" aria-disabled="true"><span data-i="gob"></span></a>
 </dialog>
 
-<dialog id="dlg">
-  <p data-i="mf"></p>
-  <button type="button" class="ok" id="ok">OK</button>
-</dialog>
 
 <script>
   const T = {
@@ -190,7 +181,6 @@
       warn: "<b>Альфа-версия.</b> В ней есть баги: возможны вылеты, просадки FPS и неточное управление. Мы работаем над исправлениями.",
       meta: "Alpha 26.3.1 · Roblox 2.741 / 2.742 (3218 / 3222) · ~148 МБ · Android 8+",
       foot: "Неофициальный проект, не связан с Roblox Corporation.",
-      mf: "MediaFire временно не работает. Скачайте из Telegram.",
       adg: "РЕКЛАМА",
       gt: "Перед скачиванием",
       gob: "Скачать из Telegram",
@@ -206,7 +196,6 @@
       warn: "<b>Alpha release.</b> It has bugs: crashes, FPS drops and imprecise controls are possible. We are working on fixes.",
       meta: "Alpha 26.3.1 · Roblox 2.741 / 2.742 (3218 / 3222) · ~148 MB · Android 8+",
       foot: "Unofficial project, not affiliated with Roblox Corporation.",
-      mf: "MediaFire is temporarily not working. Please download from Telegram.",
       adg: "AD",
       gt: "Before you download",
       gob: "Download from Telegram",
@@ -222,7 +211,6 @@
       warn: "<b>Versão alfa.</b> Ela tem bugs: travamentos, quedas de FPS e controles imprecisos são possíveis. Estamos trabalhando nas correções.",
       meta: "Alpha 26.3.1 · Roblox 2.741 / 2.742 (3218 / 3222) · ~148 MB · Android 8+",
       foot: "Projeto não oficial, sem relação com a Roblox Corporation.",
-      mf: "O MediaFire está temporariamente fora do ar. Baixe pelo Telegram.",
       adg: "PUBLICIDADE",
       gt: "Antes de baixar",
       gob: "Baixar pelo Telegram",
@@ -260,9 +248,6 @@
     try { localStorage.setItem("lang", l); } catch (e) {}
   };
   document.querySelectorAll(".langs button").forEach(b => b.addEventListener("click", () => setLang(b.dataset.lang)));
-  const dlg = document.getElementById("dlg");
-  document.getElementById("mf").addEventListener("click", () => dlg.showModal());
-  document.getElementById("ok").addEventListener("click", () => dlg.close());
   // Check window: opens from the Telegram button, always closable.
   const ad = document.getElementById("ad");
   document.getElementById("adx").addEventListener("click", () => ad.close());
