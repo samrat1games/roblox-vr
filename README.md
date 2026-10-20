@@ -1,6 +1,6 @@
-# Roblox VR — Alpha 26.3.0
+# Roblox VR — Alpha 26.3.1
 
-Cardboard VR for Roblox on Android (Roblox 2.741 / build 3218). Joy-Con, Xbox and PlayStation controllers.
+Cardboard VR for Roblox on Android (Roblox 2.741 / 2.742 (builds 3218 / 3222)). Joy-Con, Xbox and PlayStation controllers.
 
 **Alpha:** there are bugs (crashes, FPS drops, imprecise controls).
 
