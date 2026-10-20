@@ -91,7 +91,29 @@
   .download.off { background: #2a2d34; color: #7b808a; box-shadow: inset 0 0 0 1px #3a3f4b; }
   .download.off:hover { background: #2a2d34; }
   .download.off svg path { stroke: #7b808a; }
+  .download.locked { background: #2a2d34; color: #9aa0ab; box-shadow: inset 0 0 0 1px #3a3f4b; cursor: not-allowed; }
+  .download.locked:hover { background: #2a2d34; }
+  .gate { margin: 0; max-width: 520px; color: var(--muted); font-size: 14px; line-height: 1.5; }
+  .gate.flash { color: var(--amber); }
+  .ad-card.done { box-shadow: inset 0 0 0 1px #2f7d4f; }
+  .ad-card.done b::after { content: " ✓"; color: #4cd68a; }
   .meta { margin: 0; color: var(--muted); font-size: 14px; }
+
+  /* advertising cards (always under the download buttons, and in the pop-up on open) */
+  .ads { display: flex; flex-direction: column; gap: 10px; width: 100%; max-width: 520px; }
+  .adlabel { margin: 0; text-align: left; font: 800 11px/1 "Montserrat", system-ui, sans-serif; letter-spacing: 0.1em; color: var(--muted); }
+  .ad-card {
+    display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: 12px;
+    text-decoration: none; text-align: left; background: #1b1d23; box-shadow: inset 0 0 0 1px #2e323c;
+    color: var(--text); transition: background 0.15s ease;
+  }
+  .ad-card:hover { background: #22252d; }
+  .ad-card:focus-visible { outline: 3px solid #8aa3ff; outline-offset: 3px; }
+  .ad-card .icon { flex: none; width: 42px; height: 42px; border-radius: 50%; background: var(--blue); display: grid; place-items: center; }
+  .ad-card .icon.dc { background: #5865f2; }
+  .ad-card b { display: block; font: 800 16px/1.2 "Montserrat", system-ui, sans-serif; }
+  .ad-card span { display: block; margin-top: 4px; color: var(--muted); font-size: 14px; line-height: 1.4; }
+
   footer { padding-block: 20px; text-align: center; color: #6b7079; font-size: 12px; }
   dialog {
     background: #1b1d23; color: var(--text); border: 1px solid #3a3f4b; border-radius: 12px;
@@ -99,12 +121,28 @@
   }
   dialog::backdrop { background: rgba(0, 0, 0, 0.6); }
   dialog p { margin: 0 0 18px; line-height: 1.5; }
-  dialog button {
+  dialog button.ok {
     background: var(--blue); color: #fff; border: 0; border-radius: 8px; cursor: pointer;
     font: 800 16px/1 "Montserrat", system-ui, sans-serif; padding: 14px 28px;
   }
   dialog button:focus-visible { outline: 3px solid #8aa3ff; outline-offset: 3px; }
-  @media (prefers-reduced-motion: reduce) { .download { transition: none; } }
+  #ad { max-width: min(92vw, 460px); width: 100%; text-align: left; }
+  #ad .top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  #ad .x {
+    background: #2a2d34; color: var(--text); border: 0; width: 34px; height: 34px; padding: 0;
+    border-radius: 50%; font: 500 18px/1 system-ui, sans-serif; cursor: pointer;
+  }
+  #ad .ads { max-width: none; }
+  #ad .gt { margin: 0 0 12px; font: 800 18px/1.2 "Montserrat", system-ui, sans-serif; }
+  #ad .gate { margin: 14px 0 0; text-align: left; }
+  .go {
+    display: block; margin-top: 14px; text-align: center; text-decoration: none; color: #fff; background: var(--blue);
+    border-radius: 8px; padding: 15px 20px; font: 800 16px/1 "Montserrat", system-ui, sans-serif;
+  }
+  .go:hover { background: var(--blue-hover); }
+  .go.locked { background: #2a2d34; color: #7b808a; box-shadow: inset 0 0 0 1px #3a3f4b; cursor: not-allowed; }
+  .go:focus-visible { outline: 3px solid #8aa3ff; outline-offset: 3px; }
+  @media (prefers-reduced-motion: reduce) { .download, .ad-card { transition: none; } }
 </style>
 </head>
 <body>
@@ -118,24 +156,32 @@
   <span class="badge">ALPHA 26.3.1</span>
   <p class="warn" data-i="warn"></p>
   <div class="downloads">
-    <a class="download" href="https://t.me/PhoneXRApk/9" target="_blank" rel="noopener">
+    <button type="button" class="download" id="dl">
       <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M21.5 4.2 2.9 11.4c-.9.4-.9 1.6.1 1.9l4.6 1.4 1.8 5.6c.3.9 1.4 1.1 2 .4l2.6-2.6 4.8 3.5c.8.6 1.9.1 2.1-.8l3-14.9c.2-1.1-.8-1.9-1.8-1.5Z" fill="#fff"/></svg>
       Telegram
-    </a>
+    </button>
     <button type="button" class="download off" id="mf" aria-disabled="true">
       <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v11m0 0-4.5-4.5M12 14l4.5-4.5M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       MediaFire
     </button>
   </div>
   <p class="meta" data-i="meta"></p>
+  <div class="ads" id="ads"></div>
 </main>
 <footer data-i="foot"></footer>
 
-<dialog id="dlg">
-  <p data-i="mf"></p>
-  <button type="button" id="ok">OK</button>
+<dialog id="ad" aria-label="Advertising">
+  <div class="top"><span class="adlabel" data-i="adg"></span><button type="button" class="x" id="adx" aria-label="Close">✕</button></div>
+  <p class="gt" data-i="gt"></p>
+  <div class="ads" id="adpop"></div>
+  <p class="gate" id="gate" aria-live="polite"></p>
+  <a class="go locked" id="go" href="https://t.me/PhoneXRApk/9" target="_blank" rel="noopener" aria-disabled="true"><span data-i="gob"></span></a>
 </dialog>
 
+<dialog id="dlg">
+  <p data-i="mf"></p>
+  <button type="button" class="ok" id="ok">OK</button>
+</dialog>
 
 <script>
   const T = {
@@ -144,38 +190,124 @@
       warn: "<b>Альфа-версия.</b> В ней есть баги: возможны вылеты, просадки FPS и неточное управление. Мы работаем над исправлениями.",
       meta: "Alpha 26.3.1 · Roblox 2.741 / 2.742 (3218 / 3222) · ~148 МБ · Android 8+",
       foot: "Неофициальный проект, не связан с Roblox Corporation.",
-      mf: "MediaFire временно не работает. Скачайте из Telegram."
+      mf: "MediaFire временно не работает. Скачайте из Telegram.",
+      adg: "РЕКЛАМА",
+      gt: "Перед скачиванием",
+      gob: "Скачать из Telegram",
+      g0: "Откройте все каналы выше (реклама), вернитесь сюда и подождите 15 секунд. Открыто: {n}/3",
+      g2: "Подождите {s} с…",
+      g3: "Готово — можно скачивать.",
+      a1: ["Новые игры от MagicXR", "Заходите в канал: новые игры и обновления от MagicXR."],
+      a2: ["@VRmobileShare", "Telegram-канал"],
+      a3: ["Discord", "Discord-сервер"]
     },
     en: {
       sub: "1 FPS on holidays",
       warn: "<b>Alpha release.</b> It has bugs: crashes, FPS drops and imprecise controls are possible. We are working on fixes.",
       meta: "Alpha 26.3.1 · Roblox 2.741 / 2.742 (3218 / 3222) · ~148 MB · Android 8+",
       foot: "Unofficial project, not affiliated with Roblox Corporation.",
-      mf: "MediaFire is temporarily not working. Please download from Telegram."
+      mf: "MediaFire is temporarily not working. Please download from Telegram.",
+      adg: "AD",
+      gt: "Before you download",
+      gob: "Download from Telegram",
+      g0: "Open all the channels above (ads), come back here and wait 15 seconds. Done: {n}/3",
+      g2: "Please wait {s} s…",
+      g3: "Done — you can download now.",
+      a1: ["New games from MagicXR", "Check out the channel: new games and updates from MagicXR."],
+      a2: ["@VRmobileShare", "Telegram channel"],
+      a3: ["Discord", "Discord server"]
     },
     pt: {
       sub: "1 FPS nos feriados",
       warn: "<b>Versão alfa.</b> Ela tem bugs: travamentos, quedas de FPS e controles imprecisos são possíveis. Estamos trabalhando nas correções.",
       meta: "Alpha 26.3.1 · Roblox 2.741 / 2.742 (3218 / 3222) · ~148 MB · Android 8+",
       foot: "Projeto não oficial, sem relação com a Roblox Corporation.",
-      mf: "O MediaFire está temporariamente fora do ar. Baixe pelo Telegram."
+      mf: "O MediaFire está temporariamente fora do ar. Baixe pelo Telegram.",
+      adg: "PUBLICIDADE",
+      gt: "Antes de baixar",
+      gob: "Baixar pelo Telegram",
+      g0: "Abra todos os canais acima (publicidade), volte aqui e aguarde 15 segundos. Feito: {n}/3",
+      g2: "Aguarde {s} s…",
+      g3: "Pronto — você já pode baixar.",
+      a1: ["Novos jogos da MagicXR", "Entre no canal: novos jogos e atualizações da MagicXR."],
+      a2: ["@VRmobileShare", "Canal do Telegram"],
+      a3: ["Discord", "Servidor do Discord"]
     }
   };
+  const TG = '<svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M21.5 4.2 2.9 11.4c-.9.4-.9 1.6.1 1.9l4.6 1.4 1.8 5.6c.3.9 1.4 1.1 2 .4l2.6-2.6 4.8 3.5c.8.6 1.9.1 2.1-.8l3-14.9c.2-1.1-.8-1.9-1.8-1.5Z" fill="#fff"/></svg>';
+  const DC = '<svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-6l-4 3.5V17H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"/></svg>';
+  const ADS = [
+    { k: "a1", href: "https://t.me/PhoneXR", icon: TG, cls: "" },
+    { k: "a2", href: "https://t.me/VRmobileShare", icon: TG, cls: "" },
+    { k: "a3", href: "https://discord.gg/fShmhRYUF", icon: DC, cls: "dc" }
+  ];
+  function adHtml(l, withLabel) {
+    const cards = ADS.map(a => '<a class="ad-card" data-k="' + a.k + '" href="' + a.href + '" target="_blank" rel="noopener"><div class="icon ' + a.cls + '">' + a.icon +
+      '</div><div><b>' + T[l][a.k][0] + '</b><span>' + T[l][a.k][1] + '</span></div></a>').join("");
+    return (withLabel ? '<p class="adlabel">' + T[l].adg + '</p>' : "") + cards;
+  }
   function pick() {
     try { const s = localStorage.getItem("lang"); if (s && T[s]) return s; } catch (e) {}
     const n = (navigator.language || "en").toLowerCase();
     return n.startsWith("ru") ? "ru" : n.startsWith("pt") ? "pt" : "en";
   }
-  function setLang(l) {
+  var setLang = function (l) {
     document.documentElement.lang = l === "pt" ? "pt-BR" : l;
     document.querySelectorAll("[data-i]").forEach(el => { el.innerHTML = T[l][el.dataset.i]; });
     document.querySelectorAll(".langs button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.lang === l)));
+    document.getElementById("ads").innerHTML = adHtml(l, true);
+    document.getElementById("adpop").innerHTML = adHtml(l, false);
     try { localStorage.setItem("lang", l); } catch (e) {}
-  }
+  };
   document.querySelectorAll(".langs button").forEach(b => b.addEventListener("click", () => setLang(b.dataset.lang)));
   const dlg = document.getElementById("dlg");
   document.getElementById("mf").addEventListener("click", () => dlg.showModal());
   document.getElementById("ok").addEventListener("click", () => dlg.close());
+  // Check window: opens from the Telegram button, always closable.
+  const ad = document.getElementById("ad");
+  document.getElementById("adx").addEventListener("click", () => ad.close());
+  ad.addEventListener("click", e => { if (e.target === ad) ad.close(); });
+  // Download gate: open every advertised channel, come back, wait 15 s. (It cannot verify a subscription - it only tracks visits.)
+  const dl = document.getElementById("dl"), gate = document.getElementById("gate"), go = document.getElementById("go");
+  let st = { open: {}, done: {} }, left = 0, timer = null, lang = "en";
+  try { st = JSON.parse(localStorage.getItem("gate1")) || st; } catch (e) {}
+  const save = () => { try { localStorage.setItem("gate1", JSON.stringify(st)); } catch (e) {} };
+  const allDone = () => ADS.every(a => st.done[a.k]);
+  function render() {
+    const ok = allDone();
+    go.classList.toggle("locked", !ok);
+    go.setAttribute("aria-disabled", String(!ok));
+    document.querySelectorAll(".ad-card").forEach(c => c.classList.toggle("done", !!st.done[c.dataset.k]));
+    const n = ADS.filter(a => st.done[a.k]).length;
+    gate.textContent = ok ? T[lang].g3 : timer ? T[lang].g2.replace("{s}", left) : T[lang].g0.replace("{n}", n);
+  }
+  function onReturn() {
+    if (document.visibilityState !== "visible" || timer) return;
+    if (!ADS.some(a => st.open[a.k] && !st.done[a.k])) return;
+    left = 15; render();
+    timer = setInterval(() => {
+      left--;
+      if (left <= 0) { clearInterval(timer); timer = null; ADS.forEach(a => { if (st.open[a.k]) st.done[a.k] = 1; }); save(); }
+      render();
+    }, 1000);
+  }
+  document.addEventListener("click", e => {
+    const c = e.target.closest && e.target.closest(".ad-card");
+    if (c) { st.open[c.dataset.k] = 1; save(); render(); }
+  });
+  // The Telegram button opens the check window (or goes straight to the download once the check is done).
+  dl.addEventListener("click", () => {
+    if (allDone()) { window.open("https://t.me/PhoneXRApk/9", "_blank", "noopener"); return; }
+    render();
+    try { ad.showModal(); } catch (e) {}
+  });
+  go.addEventListener("click", e => {
+    if (!allDone()) { e.preventDefault(); gate.classList.add("flash"); setTimeout(() => gate.classList.remove("flash"), 900); }
+  });
+  document.addEventListener("visibilitychange", onReturn);
+  window.addEventListener("focus", onReturn);
+  const _setLang = setLang;
+  setLang = function (l) { lang = l; _setLang(l); render(); };
   setLang(pick());
 </script>
 </body>
