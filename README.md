@@ -4,7 +4,7 @@ Cardboard VR for Roblox on Android (Roblox 2.741 / 2.742 (builds 3218 / 3222)). 
 
 **Alpha:** there are bugs (crashes, FPS drops, imprecise controls).
 
-- Download: https://t.me/PhoneXRApk/5
+- Download: https://t.me/PhoneXRApk/9
 - Site: https://samrat1games.github.io/roblox-vr/
 
 *Unofficial project, not affiliated with Roblox Corporation.*
